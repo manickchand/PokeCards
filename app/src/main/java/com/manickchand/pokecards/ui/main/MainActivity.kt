@@ -5,9 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.manickchand.pokecards.R
 import com.manickchand.pokecards.model.PokemonModel
-import com.manickchand.pokecards.repository.IServiceRetrofit
+import com.manickchand.pokecards.repository.PokeCardsRemoteSource
 import com.manickchand.pokecards.repository.RetrofitInit.getClient
-import com.manickchand.pokecards.ui.detail.DetailFragment
+import com.manickchand.pokecards.ui.detail.DetailDialogFragment
 import com.manickchand.pokecards.utils.showToast
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
@@ -18,7 +18,7 @@ import retrofit2.Retrofit
 class MainActivity : AppCompatActivity(), MainListener {
 
     private val mRetrofit: Retrofit = getClient()
-    private val mIserviceRetrofit: IServiceRetrofit = this.mRetrofit.create(IServiceRetrofit::class.java)
+    private val pokeCardsRemoteSource: PokeCardsRemoteSource = this.mRetrofit.create(PokeCardsRemoteSource::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), MainListener {
 
         load.isVisible = true
 
-        var call = this.mIserviceRetrofit.getPokemons()
+        var call = this.pokeCardsRemoteSource.getPokemons()
 
         call.enqueue(object : Callback<List<PokemonModel>> {
             override fun onResponse(
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity(), MainListener {
     }
 
     override fun clickPokemon(pokemonModel: PokemonModel) {
-        DetailFragment.newInstance(pokemonModel).show(supportFragmentManager, "Card Pokemon")
+        DetailDialogFragment.newInstance(pokemonModel).show(supportFragmentManager, "Card Pokemon")
     }
 
 }

@@ -12,18 +12,19 @@ import com.manickchand.pokecards.utils.getPokemonColor
 import com.manickchand.pokecards.utils.loadGlideImage
 import kotlinx.android.synthetic.main.fragment_detail.*
 
-class DetailFragment : DialogFragment() {
+class DetailDialogFragment : DialogFragment() {
 
-    private val pokemonModel by lazy { requireArguments().getSerializable(EXTRA_POKEMON) as PokemonModel}
+    private val pokemonModel by lazy { requireArguments().getSerializable(EXTRA_POKEMON) as PokemonModel }
 
     companion object {
         private const val EXTRA_POKEMON = "pokemon"
 
         @JvmStatic
         fun newInstance(pokemonModel: PokemonModel) =
-            DetailFragment().apply {
+            DetailDialogFragment().apply {
                 arguments = bundleOf(EXTRA_POKEMON to pokemonModel)
             }
+
     }
 
     override fun onCreateView(
@@ -38,34 +39,26 @@ class DetailFragment : DialogFragment() {
         setViewData()
     }
 
-    private fun setViewData(){
+    private fun setViewData() {
 
         val color = getPokemonColor(requireContext(), pokemonModel.typeofpokemon.first())
-        pokemonModel.run {
-            tv_name.text= name
-            iv_pokemon.loadGlideImage(requireContext(), imageurl)
-            tv_description.text = xdescription
-            tv_type.apply {
-                text = typeofpokemon.first()
-                setTextColor(color)
-            }
 
-            tv_hp.apply {
-                text = hp.toString()
-                setTextColor(color)
-            }
+        tv_name.text = pokemonModel.name
+        iv_pokemon.loadGlideImage(requireContext(), pokemonModel.imageurl)
+        tv_description.text = pokemonModel.xdescription
 
-            tv_df.apply {
-                text = defense.toString()
-                setTextColor(color)
-            }
+        tv_type.text = pokemonModel.typeofpokemon.first()
+        tv_type.setTextColor(color)
 
-            tv_at.apply {
-                text = attack.toString()
-                setTextColor(color)
-            }
+        tv_hp.text = pokemonModel.hp.toString()
+        tv_hp.setTextColor(color)
 
-            card_detail_pokemon.setCardBackgroundColor(color)
-        }
+        tv_df.text = pokemonModel.defense.toString()
+        tv_df.setTextColor(color)
+
+        tv_at.text = pokemonModel.attack.toString()
+        tv_at.setTextColor(color)
+
+        card_detail_pokemon.setCardBackgroundColor(color)
     }
 }
