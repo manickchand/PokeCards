@@ -41,24 +41,36 @@ class DetailDialogFragment : DialogFragment() {
 
     private fun setViewData() {
 
-        val color = getPokemonColor(requireContext(), pokemonModel.typeofpokemon.first())
 
-        tv_name.text = pokemonModel.name
-        iv_pokemon.loadGlideImage(requireContext(), pokemonModel.imageurl)
-        tv_description.text = pokemonModel.xdescription
+        pokemonModel.run {
+            val color = getPokemonColor(requireContext(), typeofpokemon.first())
 
-        tv_type.text = pokemonModel.typeofpokemon.first()
-        tv_type.setTextColor(color)
+            tv_name.text = name
+            iv_pokemon.loadGlideImage(requireContext(), imageurl)
+            tv_description.text = xdescription
 
-        tv_hp.text = pokemonModel.hp.toString()
-        tv_hp.setTextColor(color)
+            tv_type.apply {
+                text = typeofpokemon.first()
+                setTextColor(color)
+            }
 
-        tv_df.text = pokemonModel.defense.toString()
-        tv_df.setTextColor(color)
+            tv_hp.apply {
+                text = hp.toString()
+                setTextColor(color)
+            }
 
-        tv_at.text = pokemonModel.attack.toString()
-        tv_at.setTextColor(color)
+            tv_df.apply {
+                text = defense.toString()
+                setTextColor(color)
+            }
 
-        card_detail_pokemon.setCardBackgroundColor(color)
+            tv_at.apply {
+                text = attack.toString()
+                setTextColor(color)
+            }
+
+            card_detail_pokemon.setCardBackgroundColor(color)
+        }
     }
+
 }
