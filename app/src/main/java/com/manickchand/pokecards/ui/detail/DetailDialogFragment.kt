@@ -8,7 +8,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import com.manickchand.pokecards.R
 import com.manickchand.pokecards.model.PokemonModel
-import com.manickchand.pokecards.utils.getPokemonColor
 import com.manickchand.pokecards.utils.loadGlideImage
 import kotlinx.android.synthetic.main.fragment_detail.*
 
@@ -42,7 +41,6 @@ class DetailDialogFragment : DialogFragment() {
     private fun setViewData() {
 
         pokemonModel.run {
-            val color = getPokemonColor(requireContext(), typeofpokemon.first())
 
             tv_name.text = name
             iv_pokemon.loadGlideImage(requireContext(), imageurl)

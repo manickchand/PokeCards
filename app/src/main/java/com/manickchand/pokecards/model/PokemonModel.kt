@@ -9,5 +9,6 @@ data class PokemonModel(
     val attack: Int,
     val defense: Int,
     val hp: Int,
-    val typeofpokemon: List<String>
+    val typeofpokemon: List<String>,
+    var color: Int = -1
 ) : Serializable

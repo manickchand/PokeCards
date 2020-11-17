@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(), MainListener {
         setupRecycler()
         bindObservables()
         setupFilter()
-        viewModel.fetchPokemons()
+        viewModel.fetchPokemons(this)
 
     }
 
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), MainListener {
     private fun setupRefresh(){
         load.isRefreshing = true
         load.setOnRefreshListener{
-            viewModel.fetchPokemons()
+            viewModel.fetchPokemons(this)
         }
     }
 

@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.manickchand.pokecards.R
 import com.manickchand.pokecards.utils.loadGlideImage
 import com.manickchand.pokecards.model.PokemonModel
-import com.manickchand.pokecards.utils.getPokemonColor
 import kotlinx.android.synthetic.main.item_pokemon.view.*
 
 class MainAdapter( private val items: List<PokemonModel>, private val listener: MainListener) : RecyclerView.Adapter<MainAdapter.ViewHolder?>() {
@@ -16,7 +15,6 @@ class MainAdapter( private val items: List<PokemonModel>, private val listener: 
         fun bind(pokemon: PokemonModel) = with(itemView) {
 
             pokemon.run {
-                val color = getPokemonColor(context, typeofpokemon.first())
 
                 iv_pokemon.apply {
                     loadGlideImage(context, imageurl)
