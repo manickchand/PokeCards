@@ -41,7 +41,6 @@ class DetailDialogFragment : DialogFragment() {
 
     private fun setViewData() {
 
-
         pokemonModel.run {
             val color = getPokemonColor(requireContext(), typeofpokemon.first())
 
