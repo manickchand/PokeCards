@@ -4,14 +4,14 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.manickchand.pokecards.model.PokemonModel
 import com.manickchand.pokecards.repository.PokeCardsRemoteSource
 import com.manickchand.pokecards.repository.RetrofitInit
 import com.manickchand.pokecards.utils.getPokemonColor
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
+import java.lang.Exception
 
 class MainViewModel : ViewModel() {
 
@@ -28,22 +28,17 @@ class MainViewModel : ViewModel() {
 
     fun fetchPokemons(context: Context) {
 
-        var call = pokeCardsRemoteSource.getPokemons()
-
-        call.enqueue(object : Callback<List<PokemonModel>> {
-            override fun onResponse(
-                call: Call<List<PokemonModel>>?,
-                response: Response<List<PokemonModel>>?
-            ) {
-                setAllPokemonsList( context, response?.body() ?: emptyList())
+        viewModelScope.launch {
+            try {
+                var response = pokeCardsRemoteSource.getPokemons()
+                setAllPokemonsList( context, response)
                 pokemonLiveData.value = allPokemonsList
                 errorLiveData.value = false
-            }
-
-            override fun onFailure(call: Call<List<PokemonModel>>?, t: Throwable?) {
+            }catch (e: Exception){
                 errorLiveData.value = true
             }
-        })
+
+        }
     }
 
     private fun setAllPokemonsList(context: Context, pokemons: List<PokemonModel>){
