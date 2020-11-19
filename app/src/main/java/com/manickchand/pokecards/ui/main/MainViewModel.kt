@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.manickchand.pokecards.model.PokemonModel
 import com.manickchand.pokecards.repository.PokeCardsRemoteSource
+import com.manickchand.pokecards.repository.PokeCardsRepositoryImpl
 import com.manickchand.pokecards.repository.RetrofitInit
 import com.manickchand.pokecards.utils.getPokemonColor
 import kotlinx.coroutines.launch
@@ -18,6 +19,7 @@ class MainViewModel : ViewModel() {
     private val mRetrofit: Retrofit = RetrofitInit.getClient()
     private val pokeCardsRemoteSource: PokeCardsRemoteSource = mRetrofit.create(
         PokeCardsRemoteSource::class.java)
+    private val pokeCardsRepositoryImpl = PokeCardsRepositoryImpl(pokeCardsRemoteSource)
 
     private val pokemonLiveData = MutableLiveData<List<PokemonModel>>()
     private val errorLiveData = MutableLiveData<Boolean>()
@@ -30,14 +32,13 @@ class MainViewModel : ViewModel() {
 
         viewModelScope.launch {
             try {
-                var response = pokeCardsRemoteSource.getPokemons()
+                var response = pokeCardsRepositoryImpl.getPokemons()
                 setAllPokemonsList( context, response)
                 pokemonLiveData.value = allPokemonsList
                 errorLiveData.value = false
             }catch (e: Exception){
                 errorLiveData.value = true
             }
-
         }
     }
 
