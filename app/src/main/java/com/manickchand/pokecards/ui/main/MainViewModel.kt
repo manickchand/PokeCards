@@ -25,9 +25,14 @@ class MainViewModel(private val pokeCardsRepositoryImpl:PokeCardsRepositoryImpl)
         viewModelScope.launch {
             try {
                 var response = pokeCardsRepositoryImpl.getPokemons()
-                setAllPokemonsList( context, response)
-                pokemonLiveData.value = allPokemonsList
-                errorLiveData.value = false
+                if(response != null){
+                    setAllPokemonsList( context, response)
+                    pokemonLiveData.value = allPokemonsList
+                    errorLiveData.value = false
+                }else{
+                    pokemonLiveData.value = emptyList()
+                }
+
             }catch (e: Exception){
                 errorLiveData.value = true
             }
@@ -48,6 +53,6 @@ class MainViewModel(private val pokeCardsRepositoryImpl:PokeCardsRepositoryImpl)
     }
 
     private fun setColorPokemons(context: Context){
-        allPokemonsList.forEach { it.color = getPokemonColor(context, it.typeofpokemon.first()) }
+        allPokemonsList.forEach { it.color = getPokemonColor(context, it.typeofpokemon.firstOrNull() ?: "") }
     }
 }
