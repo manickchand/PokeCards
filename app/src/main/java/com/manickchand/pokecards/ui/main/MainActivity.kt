@@ -10,10 +10,11 @@ import com.manickchand.pokecards.ui.detail.DetailDialogFragment
 import com.manickchand.pokecards.utils.showToast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.header.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity(), MainListener {
 
-    private val viewModel = MainViewModel()
+    private val viewModel: MainViewModel by viewModel()
     private val pokemonsList = ArrayList<PokemonModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {

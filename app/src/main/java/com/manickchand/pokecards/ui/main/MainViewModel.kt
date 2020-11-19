@@ -6,20 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.manickchand.pokecards.model.PokemonModel
-import com.manickchand.pokecards.repository.PokeCardsRemoteSource
 import com.manickchand.pokecards.repository.PokeCardsRepositoryImpl
-import com.manickchand.pokecards.repository.RetrofitInit
 import com.manickchand.pokecards.utils.getPokemonColor
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
 import java.lang.Exception
 
-class MainViewModel : ViewModel() {
-
-    private val mRetrofit: Retrofit = RetrofitInit.getClient()
-    private val pokeCardsRemoteSource: PokeCardsRemoteSource = mRetrofit.create(
-        PokeCardsRemoteSource::class.java)
-    private val pokeCardsRepositoryImpl = PokeCardsRepositoryImpl(pokeCardsRemoteSource)
+class MainViewModel(private val pokeCardsRepositoryImpl:PokeCardsRepositoryImpl) : ViewModel() {
 
     private val pokemonLiveData = MutableLiveData<List<PokemonModel>>()
     private val errorLiveData = MutableLiveData<Boolean>()
