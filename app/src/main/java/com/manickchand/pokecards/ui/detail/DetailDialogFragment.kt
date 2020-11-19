@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import com.manickchand.pokecards.R
 import com.manickchand.pokecards.model.PokemonModel
 import com.manickchand.pokecards.utils.loadGlideImage
@@ -19,11 +20,11 @@ class DetailDialogFragment : DialogFragment() {
         private const val EXTRA_POKEMON = "pokemon"
 
         @JvmStatic
-        fun newInstance(pokemonModel: PokemonModel) =
+        fun newInstance(pokemonModel: PokemonModel, fragmentManager: FragmentManager) =
             DetailDialogFragment().apply {
                 arguments = bundleOf(EXTRA_POKEMON to pokemonModel)
+                show(fragmentManager, "Card Pokemon")
             }
-
     }
 
     override fun onCreateView(

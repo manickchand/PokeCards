@@ -25,7 +25,7 @@ class MainViewModel(private val pokeCardsRepositoryImpl:PokeCardsRepositoryImpl)
         viewModelScope.launch {
             try {
                 var response = pokeCardsRepositoryImpl.getPokemons()
-                if(response != null){
+                if(!response.isNullOrEmpty()){
                     setAllPokemonsList( context, response)
                     pokemonLiveData.value = allPokemonsList
                     errorLiveData.value = false
@@ -46,10 +46,11 @@ class MainViewModel(private val pokeCardsRepositoryImpl:PokeCardsRepositoryImpl)
     }
 
     fun filterList(filterStr: String?){
-        val pokemonsFiltered = filterStr?.run {
-            allPokemonsList.filter { it.name.toLowerCase().contains(filterStr.toLowerCase()) }
+        pokemonLiveData.value = filterStr?.run {
+            allPokemonsList.filter{ pokemon ->
+                pokemon.name.toLowerCase().contains(filterStr.toLowerCase())
+            }
         } ?: allPokemonsList
-        pokemonLiveData.value = pokemonsFiltered
     }
 
     private fun setColorPokemons(context: Context){

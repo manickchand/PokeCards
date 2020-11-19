@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity(), MainListener {
         bindObservables()
         setupFilter()
         viewModel.fetchPokemons(this)
-
     }
 
     private fun bindObservables(){
@@ -48,12 +47,11 @@ class MainActivity : AppCompatActivity(), MainListener {
         }
     }
 
-    private fun setupRecycler() {
+    private fun setupRecycler() =
         with(recycler) {
             setHasFixedSize(true)
             adapter = MainAdapter(pokemonsList, this@MainActivity)
         }
-    }
 
     private fun showItems(pokemons: List<PokemonModel>){
         pokemonsList.clear()
@@ -61,8 +59,8 @@ class MainActivity : AppCompatActivity(), MainListener {
         recycler.adapter?.notifyDataSetChanged()
     }
 
-    override fun clickPokemon(pokemonModel: PokemonModel) {
-        DetailDialogFragment.newInstance(pokemonModel).show(supportFragmentManager, "Card Pokemon")
+    override fun clickPokemon(pokemonModel: PokemonModel){
+        DetailDialogFragment.newInstance(pokemonModel, supportFragmentManager)
     }
 
     private fun setupFilter(){
